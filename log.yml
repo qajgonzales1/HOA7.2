@@ -1,0 +1,19 @@
+---
+- name: Collect logs from control node
+  hosts: all  # Target the control node
+  become: true       # Run tasks with elevated privileges on control node
+
+  tasks:
+    - name: Gather system logs on control node
+      # Use shell module for proper pipe handling
+      shell: journalctl | grep {{ log_filter }}
+      register: logs
+
+    - name: Copy logs to manage node
+      copy:
+        dest: /home/manage/logs/  # Customize destination
+        content: "{{ logs.stdout }}"
+      when: logs.stdout is defined and logs.stdout | length > 0  # Check for defined and non-empty content
+
+  vars:
+    log_filter: "error"   # Example filter, adjust as needed

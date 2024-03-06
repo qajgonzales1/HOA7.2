@@ -1,0 +1,31 @@
+---
+- name: Collect log files
+  hosts: all
+  become: true
+  tasks:
+
+    - name: Create directory for logs
+      ansible.builtin.file:
+        path: /home/manage/logs/
+        state: directory
+
+    - name: Fetch log files
+      ansible.builtin.fetch:
+        src: "/var/log/{{ item }}"
+        dest: /tmp/logs/syslog/
+        flat: yes
+      with_items:
+        - alternatives.log
+        - auth.log
+        - bootstrap.log
+        - btmp
+        - dpkg.log
+        - faillog
+        - fontconfig.log
+        - gpu-manager.log
+        - kern.log
+        - lastlog
+        - syslog
+        - syslog.1
+        - ubuntu-advantage.log
+        - wtmp

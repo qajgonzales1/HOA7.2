@@ -1,0 +1,27 @@
+# Creating folder
+- name: Creating folder in control node
+  file:
+    path: /home/gonzales/Desktop/hands_on_7.1/log_files/managenode/
+    state: directory
+
+# Passing the log files from managenode
+- name: Copying log files
+  fetch:
+    src: "/var/log/{{ item }}"
+    dest: /home/gonzales/Desktop/hands_on_7.1/log_files/managenode/
+    flat: yes
+  with_items:
+    - alternatives.log
+    - auth.log
+    - bootstrap.log
+    - btmp
+    - dpkg.log
+    - faillog
+    - fontconfig.log
+    - gpu-manager.log
+    - kern.log
+    - lastlog
+    - syslog
+    - syslog.1
+    - tallylog
+    - wtmp
